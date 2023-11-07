@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-----------Important meta tags----------->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Junior Frontend Mentor Challenge to build an interactive newsletter sign up pagee">
+    <meta property="og:description" content="Junior Frontend Mentor Challenge to build an interactive newsletter sign up page">
+    <meta name="author" content="Ogunsanwo David Oluwadamilare">
+    <meta property="og:author" content="Ogunsanwo David Oluwadamilare">
+    <meta property="og:title" content="NewsLetter">
+
+    <!-----------Title---------->
+    <title>NEWSLETTER</title>
+
+    <!------------Favicon------------->
+    <link rel="shortcut icon" href="./assets/images/favicon-32x32.png" type="image/x-icon">
+
+    <!-------Linked stylesheets, fonts, icons and libraries------------>
+    <link rel="stylesheet" href="./dist/output.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+
+    <!----------Fontawesome icons---------->
+
+
+    <!--Added styles-->
+    <style>
+        .error{
+            border: 1.5px solid hsl(4, 100%, 67%);
+            background-color: hsla(4, 100%, 67%, 0.3);
+        }
+
+        .error::placeholder{
+            color: hsl(4, 100%, 67%);
+        }
+
+        @media (max-width:870px) {
+            #heroImg-desktop{
+                display: none !important;
+            }
+        }
+        @media (min-width:870px){
+            #heroImg-mobile{
+                display: none !important;
+            }
+        }
+
+    </style>
+</head>
+
+<body class="font-roboto md:flex md:w-[100vw] md:h-[100vh] md:justify-center md:items-center md:bg-dark-slate-grey">
+    <div id="container" class="flex flex-col max-w-[850px] md:flex-row-reverse md:w-full md:h-max md:justify-center md:items-center md:z-10 md:bg-white md:rounded-3xl md:p-6">
+        <img id="heroImg-mobile" src="./assets/images/illustration-sign-up-mobile.svg" class="md:hidden w-full max-h-[300px] object-cover rounded-b-3xl rounded-bl-3xl align-top" alt="">
+        <img id="heroImg-desktop" src="./assets/images/illustration-sign-up-desktop.svg" class="hidden md:block w-full object-cover rounded-3xl md:w-1/2 md:h-[500px] md:ml-10" alt="">
+
+        <main id="main" class="px-10 py-8 md:w-1/2 md:px-0">
+            <h1 class=" font-bold text-4xl text-dark-slate-grey">Stay updated!</h1>
+            <p class=" font-medium text-base py-6 text-charcoal-grey md:pb-3">Join 60,000+ product managers receiving monthly updates on:</p>
+            <div class="flex flex-col space-y-4 py-5 md:py-2">
+                <div class="flex space-x-4">
+                    <img src="./assets/images/icon-list.svg" class="h-5 w-5" alt="">
+                    <p class=" font-bold text-base text-charcoal-grey -mt-1">Product discovery and building what matters</p>
+                </div>
+                <div class="flex space-x-4">
+                    <img src="./assets/images/icon-list.svg" class="h-5 w-5" alt="">
+                    <p class=" font-bold text-base text-charcoal-grey -mt-1">Measuring to ensure updates are a success</p>
+                </div>
+                <div class="flex space-x-4">
+                    <img src="./assets/images/icon-list.svg" class="h-5 w-5" alt="">
+                    <p class=" font-bold text-base text-charcoal-grey -mt-1">And much more!</p>
+                </div>
+            </div>
+
+            <form class="flex flex-col py-8 md:py-0">
+                <div class="flex justify-between pt-4">
+                    <label for="email" class="text-dark-slate-grey  font-bold text-xs">Email address</label>
+                    <label for="email" id="error-msg" class="hidden font-bold text-xs text-tomato">Valid email required</label>
+                </div>
+                <input type="email" id="email" class="w-full h-12 border-[1.5px] border-grey p-6 my-2 rounded-md placeholder:text-grey placeholder:font-medium focus:outline-grey" placeholder="email@company.com">
+                <button type="submit" class="w-full p-4 my-6 text-white text-sm bg-charcoal-grey rounded-md md:my-0 md:mt-3 md:text-base" onclick="event.preventDefault(); validateForm();">Subscribe to monthly newsletter</button>
+            </form>
+        </main>
+
+        <div id="thank-you" class="hidden flex-col justify-between w-[100vw] h-[100vh] px-4 pt-20 pb-10 md:p-0 md:h-[300px] md:w-[300px]">
+            <div class="flex flex-col">
+                <img src="./assets/images/icon-success.svg" class="w-10 h-10" alt="#">
+                <h1 class=" font-bold text-3xl text-dark-slate-grey pt-4 pb-2 md:text-4xl">Thanks for Subscribing!</h1>
+                <p class="text-charcoal-grey text-sm font-medium py-3">A confirmation email has been sent to  <span  id="receiver-email" class="font-bold"></span>. Please open it and click the button inside to confirm your subscription.</p>
+            </div>
+            <button class="w-[100%] p-3 text-white text-sm bg-charcoal-grey rounded-md hover:bg-gradient-to-r from-[#ff537a] to-tomato" onclick="openForm()">Dismiss message</button>
+        </div>
+    </div>
+
+
+
+
+    <!--Scripts-->
+    <script>
+        const mainCon = document.getElementById("container");
+        const email = document.getElementById("email")
+        const imgMobile = document.getElementById("heroImg-mobile")
+        const imgDesktop = document.getElementById("heroImg-desktop")
+        const main = document.getElementById("main")
+        const thankYou = document.getElementById("thank-you");
+        const emailRec = document.getElementById("receiver-email")
+
+        function thankYou2() {
+            emailRec.innerHTML = email.value
+            imgMobile.style.display = "none"
+            imgDesktop.style.display = "none"
+            main.style.display = "none"
+            thankYou.style.display="flex"
+            email.value = ""
+            mainCon.style.width = "max-content"
+        }
+
+        function openForm(){
+            imgMobile.style.display = "block"
+            imgDesktop.style.display = "block"
+            main.style.display = "block"
+            thankYou.style.display="none"
+            mainCon.style.width = "100%"
+        }
+
+        function validateForm() {
+        const email = document.getElementById("email")
+        const errorMsg = document.getElementById("error-msg")
+        var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+            function errorFunc(e) {
+                e.classList.add('error');
+                errorMsg.style.display = "block"
+            }
+
+            if (email.value.trim() === "") {
+                errorFunc(email)
+            }    
+
+            if (email.value.match(validRegex)) {
+                thankYou2();
+            }
+        }
+
+    </script>
+</body>
